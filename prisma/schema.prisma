@@ -1,0 +1,108 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Shipment {
+  id            String   @id @default(cuid())
+  blAwbNo       String   @unique
+  isAir         Boolean  @default(false)
+  container20ft Int      @default(0)
+  container40ft Int      @default(0)
+  dateDepSender DateTime?
+  etaPort       DateTime?
+  finalEta      DateTime?
+  status        String   @default("PENDING")
+  remarks       String?
+  origin        String?
+  destination   String?
+  carrier       String?
+  vessel        String?
+  weight        Float?
+  volume        Float?
+  freightCost   Float?
+  currency      String   @default("USD")
+  incoterm      String?
+  customsRef    String?
+
+  purchaseOrders PurchaseOrder[]
+  events         ShipmentEvent[]
+  receivings     ReceivingRecord[]
+  alerts         Alert[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([blAwbNo])
+}
+
+model PurchaseOrder {
+  id          String   @id @default(cuid())
+  poNumber    String
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  quantity    Int?
+  description String?
+  value       Float?
+  supplier    String?
+  buyer       String?
+
+  createdAt DateTime @default(now())
+
+  @@index([shipmentId])
+  @@index([poNumber])
+}
+
+model ShipmentEvent {
+  id          String   @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  eventType   String
+  description String
+  location    String?
+  timestamp   DateTime
+  source      String   @default("MANUAL")
+
+  createdAt DateTime @default(now())
+
+  @@index([shipmentId])
+}
+
+model ReceivingRecord {
+  id          String   @id @default(cuid())
+  shipmentId  String
+  shipment    Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  receivedBy  String
+  receivedAt  DateTime
+  quantity    Int
+  condition   String   @default("GOOD")
+  notes       String?
+  barcodeData String?
+  poNumber    String?
+  location    String?
+
+  createdAt DateTime @default(now())
+
+  @@index([shipmentId])
+}
+
+model Alert {
+  id         String   @id @default(cuid())
+  shipmentId String
+  shipment   Shipment @relation(fields: [shipmentId], references: [id], onDelete: Cascade)
+  alertType  String
+  message    String
+  severity   String   @default("MEDIUM")
+  isRead     Boolean  @default(false)
+  resolvedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@index([shipmentId])
+  @@index([isRead])
+}
