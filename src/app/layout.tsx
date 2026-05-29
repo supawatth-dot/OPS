@@ -11,7 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <head>
-        <title>OPS Logistics — Enterprise Shipment Tracking</title>
+        <title>Customs Nexus — Real-Time Reconciliation & Compliance</title>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
       </head>
