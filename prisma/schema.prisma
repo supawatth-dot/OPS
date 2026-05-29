@@ -106,3 +106,107 @@ model Alert {
   @@index([shipmentId])
   @@index([isRead])
 }
+
+model ImportLog {
+  id               String              @id @default(cuid())
+  entry_no         String              @unique
+  import_date      DateTime
+  invoice_no       String
+  supplier_name    String
+  part_id          String
+  part_name        String
+  qty_imported     Float
+  uom              String
+  bonded_status    String
+  customs_status   String   @default("Pending")
+  document_pdf_url String?
+  created_by       String
+  created_at       DateTime            @default(now())
+  updated_at       DateTime            @updatedAt
+
+  @@index([part_id])
+  @@index([customs_status])
+  @@map("Import_Logs")
+}
+
+model ProductionConsumptionLog {
+  id                 String   @id @default(cuid())
+  work_order_id      String
+  production_line    String
+  machine_id         String
+  operator_name      String
+  part_id            String
+  qty_consumed       Float
+  trigger_timestamp  DateTime
+  cctv_reference_url String?
+  created_at         DateTime @default(now())
+
+  @@index([part_id])
+  @@index([work_order_id])
+  @@index([trigger_timestamp])
+  @@map("Production_Consumption_Logs")
+}
+
+model StockInventory {
+  id                 String                    @id @default(cuid())
+  warehouse_zone     String
+  rack_location      String
+  part_id            String
+  bonded_stock_qty   Float
+  physical_stock_qty Float
+  last_cycle_count   DateTime?
+  stock_status       String   @default("Balanced")
+  updated_at         DateTime                  @updatedAt
+
+  @@index([part_id])
+  @@index([warehouse_zone, rack_location])
+  @@map("Stock_Inventory")
+}
+
+model BomMapping {
+  id              String   @id @default(cuid())
+  product_id      String
+  raw_material_id String
+  qty_per_unit    Float
+  revision_no     String
+  effective_date  DateTime
+
+  @@index([product_id])
+  @@index([raw_material_id])
+  @@map("BOM_Mapping")
+}
+
+model AuditTrail {
+  id             String   @id @default(cuid())
+  transaction_id String
+  module_name    String
+  action_type    String
+  reference_id   String
+  user_name      String
+  timestamp      DateTime @default(now())
+  hash_value     String   @unique
+  ip_address     String
+  cctv_video_url String?
+  remarks        String?
+
+  @@index([transaction_id])
+  @@index([reference_id])
+  @@index([timestamp])
+  @@map("Audit_Trail")
+}
+
+model CctvEvent {
+  id                     String   @id @default(cuid())
+  event_type             String
+  event_timestamp        DateTime
+  camera_id              String
+  video_url              String
+  snapshot_thumbnail_url String
+  related_transaction_id String
+  timeline_marker        String
+  created_at             DateTime @default(now())
+
+  @@index([related_transaction_id])
+  @@index([camera_id, event_timestamp])
+  @@map("CCTV_Events")
+}

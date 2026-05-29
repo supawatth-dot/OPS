@@ -33,7 +33,7 @@ export default function Header() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white"
-            placeholder="Search by BL/AWB number, PO, vessel..."
+            placeholder="Search part ID, customs entry, work order, CCTV event..."
           />
         </div>
       </form>
@@ -66,8 +66,8 @@ export default function Header() {
             <User size={15} className="text-white" />
           </div>
           <div className="hidden sm:block">
-            <p className="text-sm font-medium text-slate-700 leading-tight">Admin</p>
-            <p className="text-xs text-slate-400">Logistics Manager</p>
+            <p className="text-sm font-medium text-slate-700 leading-tight">A. Rivera</p>
+            <p className="text-xs text-slate-400">Customs Officer</p>
           </div>
         </div>
       </div>

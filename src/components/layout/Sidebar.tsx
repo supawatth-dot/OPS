@@ -2,16 +2,16 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import {
-  LayoutDashboard, Package, Truck, WarehouseIcon, BarChart3,
-  Bell, Settings, ChevronRight, Ship, Plane, BoxIcon
+  LayoutDashboard, Package, WarehouseIcon, BarChart3,
+  Bell, Settings, ChevronRight, ShieldCheck, Camera, ClipboardCheck
 } from 'lucide-react'
 
 const NAV = [
-  { href: '/',           icon: LayoutDashboard, label: 'Dashboard' },
-  { href: '/shipments',  icon: Package,         label: 'Shipments' },
-  { href: '/receiving',  icon: WarehouseIcon,   label: 'Receiving' },
-  { href: '/analytics',  icon: BarChart3,       label: 'Analytics' },
-  { href: '/alerts',     icon: Bell,            label: 'Alerts' },
+  { href: '/',           icon: LayoutDashboard, label: 'Control Tower' },
+  { href: '/shipments',  icon: Package,         label: 'Import Logs' },
+  { href: '/receiving',  icon: WarehouseIcon,   label: 'Warehouse Receive' },
+  { href: '/analytics',  icon: BarChart3,       label: 'Reconciliation' },
+  { href: '/alerts',     icon: Bell,            label: 'Audit Alerts' },
 ]
 
 export default function Sidebar() {
@@ -23,11 +23,11 @@ export default function Sidebar() {
       <div className="px-6 py-5 border-b border-white/10">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-blue-600 rounded-lg flex items-center justify-center">
-            <Ship size={20} className="text-white" />
+            <ShieldCheck size={20} className="text-white" />
           </div>
           <div>
-            <p className="text-white font-bold text-base leading-tight">OPS Logistics</p>
-            <p className="text-slate-400 text-xs">Enterprise TMS v2.0</p>
+            <p className="text-white font-bold text-base leading-tight">Customs Nexus</p>
+            <p className="text-slate-400 text-xs">Reconciliation OS</p>
           </div>
         </div>
       </div>
@@ -35,9 +35,9 @@ export default function Sidebar() {
       {/* Stats strip */}
       <div className="px-4 py-3 grid grid-cols-3 gap-2 border-b border-white/10">
         {[
-          { icon: Ship,  val: '14', label: 'Sea' },
-          { icon: Plane, val: '6',  label: 'Air' },
-          { icon: BoxIcon, val: '20', label: 'Total' },
+          { icon: ClipboardCheck, val: '99.94%', label: 'Match' },
+          { icon: Camera, val: '286',  label: 'CCTV' },
+          { icon: Bell, val: '3', label: 'Risk' },
         ].map(({ icon: Icon, val, label }) => (
           <div key={label} className="bg-white/5 rounded-lg px-2 py-2 text-center">
             <Icon size={12} className="text-slate-400 mx-auto mb-1" />
@@ -75,9 +75,9 @@ export default function Sidebar() {
         <div className="bg-white/5 border border-white/10 rounded-lg px-3 py-2.5">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-            <span className="text-slate-300 text-xs font-medium">SAP Integration Ready</span>
+            <span className="text-slate-300 text-xs font-medium">Audit Hash Chain Active</span>
           </div>
-          <p className="text-slate-500 text-xs mt-0.5">API endpoint active</p>
+          <p className="text-slate-500 text-xs mt-0.5">PostgreSQL · Redis · Socket.IO</p>
         </div>
       </div>
     </aside>
